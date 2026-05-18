@@ -253,6 +253,9 @@ df_share = pd.DataFrame({
     'Share de Escolha (%)': final_shares
 }).sort_values('Share de Escolha (%)', ascending=False)
 
+
+
+
 fig_conjoint = px.bar(df_share, x='Share de Escolha (%)', y='Oferta na Concessionária', orientation='h', text_auto='.1f')
 fig_conjoint.update_traces(marker_color='#00B0F0')
 fig_conjoint.update_layout(template="plotly_white", height=300)
