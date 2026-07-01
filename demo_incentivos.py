@@ -5,266 +5,188 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # ==========================================
-# 1. CONFIGURAÇÃO DA PÁGINA E CSS CORPORATIVO
+# 1. CONFIGURAÇÃO DA PÁGINA E BRANDING INSIGHTS&ETC
 # ==========================================
-st.set_page_config(page_title="Incentives Clinic - Route Automotive", layout="wide", page_icon="📈")
+st.set_page_config(page_title="Product & Pricing Simulator - Insights&Etc", layout="wide", page_icon="🏍️")
 
+# Aplicação do Dark Mode e Cores da Marca (Insights&Etc)
 st.markdown("""
 <style>
-    /* Tema Claro Corporativo (Estilo PDF Route Automotive) */
-    .stApp { background-color: #F8FAFC; color: #0F172A; font-family: 'Segoe UI', Arial, sans-serif; }
-    h1, h2, h3, h4 { color: #002060 !important; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 700; }
+    /* Fundo Dark Mode Corporativo e Texto Neutro */
+    .stApp { background-color: #0A192F; color: #E2E8F0; font-family: 'Montserrat', sans-serif; }
+    h1, h2, h3, h4 { color: #FFFFFF !important; font-weight: 600; font-family: 'Montserrat', sans-serif; }
     
-    /* Cabeçalho Customizado */
-    .header-container { border-bottom: 3px solid #002060; padding-bottom: 10px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end;}
-    .header-title { font-size: 28px; font-weight: 800; color: #002060; margin: 0; }
-    .header-subtitle { font-size: 16px; color: #64748B; margin: 0; }
-    .route-logo { font-size: 22px; font-weight: 900; color: #002060; letter-spacing: 1px; text-align: right; line-height: 1.2;}
-    .route-logo span { color: #00B0F0; font-weight: 400; font-size: 14px; letter-spacing: 3px; display: block;}
-
-    /* Cards de Insight e Metodologia */
-    .insight-box { background-color: #FFFFFF; border-left: 6px solid #00B0F0; padding: 20px; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 25px; }
-    .insight-title { font-weight: 800; color: #002060; font-size: 16px; margin-bottom: 8px; display: block; text-transform: uppercase;}
+    /* Cabeçalho Insights&Etc */
+    .header-container { border-bottom: 2px solid #00FFFF; padding-bottom: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end;}
+    .header-title { font-size: 26px; font-weight: 700; color: #FFFFFF; margin: 0; }
+    .header-subtitle { font-size: 14px; color: #8892B0; margin: 0; font-family: 'Roboto', sans-serif; }
+    .brand-logo { font-size: 28px; font-weight: 600; color: #0A192F; text-align: right; line-height: 1; background-color: #FFFFFF; padding: 10px 15px; border-radius: 4px; }
     
-    .alert-box { background-color: #FFF5F5; border-left: 6px solid #E53E3E; padding: 20px; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 25px; }
-    .alert-title { font-weight: 800; color: #E53E3E; font-size: 16px; margin-bottom: 8px; display: block; text-transform: uppercase;}
+    /* Cards Analíticos */
+    .insight-box { background-color: #112240; border-left: 4px solid #00FFFF; padding: 20px; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); margin-bottom: 25px; font-family: 'Roboto', sans-serif; }
+    .insight-title { font-weight: 700; color: #00FFFF; font-size: 16px; margin-bottom: 10px; display: block; text-transform: uppercase; letter-spacing: 1px;}
+    
+    .alert-box { background-color: #112240; border-left: 4px solid #FF6B6B; padding: 20px; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); margin-bottom: 25px; font-family: 'Roboto', sans-serif; }
+    .alert-title { font-weight: 700; color: #FF6B6B; font-size: 16px; margin-bottom: 10px; display: block; text-transform: uppercase; letter-spacing: 1px;}
 
-    /* Customização de Tabs */
-    .stTabs [data-baseweb="tab-list"] { background-color: #FFFFFF; padding: 10px 10px 0 10px; border-radius: 8px 8px 0 0; border-bottom: 2px solid #E2E8F0;}
-    .stTabs [data-baseweb="tab"] { color: #64748B; font-weight: 600; padding: 10px 20px; }
-    .stTabs [aria-selected="true"] { color: #002060 !important; border-bottom-color: #00B0F0 !important; border-bottom-width: 3px !important;}
+    /* Abas Customizadas */
+    .stTabs [data-baseweb="tab-list"] { background-color: transparent; border-bottom: 1px solid #233554;}
+    .stTabs [data-baseweb="tab"] { color: #8892B0; font-weight: 500; padding: 10px 20px; }
+    .stTabs [aria-selected="true"] { color: #00FFFF !important; border-bottom-color: #00FFFF !important; border-bottom-width: 3px !important;}
 </style>
 """, unsafe_allow_html=True)
 
-# ==========================================
-# 2. CABEÇALHO GLOBAL
-# ==========================================
+# Cabeçalho
 st.markdown("""
 <div class="header-container">
     <div>
-        <h1 class="header-title">Incentives Clinic</h1>
-        <p class="header-subtitle">DADOS FICTÍCIOS | ILUSTRATIVO | Simulador Integrado MaxDiff + Conjoint</p>
+        <h1 class="header-title">Product Features & Pricing Simulator</h1>
+        <p class="header-subtitle">YAMAHA BRASIL | Simulador Integrado MaxDiff + Conjoint (Dados Ilustrativos)</p>
     </div>
-    <div class="route-logo">
-        ROUTE
-        <span>AUTOMOTIVE</span>
+    <div style="font-size: 28px; font-weight: 600; color: #FFFFFF; font-family: 'Montserrat', sans-serif;">
+        INSIGHTS<span style="color:#FF6B6B; font-weight:700;">&</span><span style="font-weight:400;">Etc</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 3. DADOS FAKE (BASEADOS NO PDF)
+# 2. FILTROS LATERAIS (SEGMENTAÇÃO)
 # ==========================================
-BENEFICIOS = [
-    "Taxa de Juros Subsidiada",
-    "Desconto Direto (Bônus Varejo)",
-    "Supervalorização do Usado",
-    "Seguro Grátis",
-    "IPVA Grátis",
-    "Manutenção Grátis",
-    "Documentação Grátis",
-    "Brindes / Acessórios"
-]
+st.sidebar.markdown("""<div style="font-size: 20px; font-weight: 600; color: #FFFFFF; margin-bottom: 20px;">
+    INSIGHTS<span style="color:#FF6B6B; font-weight:700;">&</span><span style="font-weight:400;">Etc</span>
+</div>""", unsafe_allow_html=True)
 
-def get_maxdiff_ranking():
-    # Baseado na página 2 do PDF
-    scores = [82, 76, 68, 55, 45, 30, 22, 15]
-    return pd.DataFrame({'Incentivo': BENEFICIOS, 'Score (0-100)': scores}).sort_values('Score (0-100)', ascending=True)
+st.sidebar.header("🎯 Parâmetros de Análise")
+segmentos_opts = ['Total Mercado', 'Scooter/Cub', 'Small Street/On-off', 'Middle Street/On-Off', 'Big Street / On-Off']
+segmento_selecionado = st.sidebar.selectbox("Segmento de Atuação:", segmentos_opts)
 
-def get_maxdiff_heatmap():
-    # Baseado na página 14 do PDF (Consenso vs Polarizado)
-    np.random.seed(42)
-    data = {
-        'Apostadores': [85, 78, 70, 50, 42, 25, 18, 10],
-        'Potenciais':  [80, 75, 65, 58, 48, 30, 22, 18],
-        'Indecisos':   [81, 74, 69, 45, 40, 35, 28, 20],
-        'Refratários': [83, 76, 68, 62, 55, 28, 20, 15]
-    }
-    df = pd.DataFrame(data, index=BENEFICIOS)
-    # Calculando desvio padrão para definir Consenso
-    df['Desvio Padrão'] = df.std(axis=1)
-    df['Diagnóstico'] = df['Desvio Padrão'].apply(lambda x: 'Consenso' if x < 6 else 'Polarizado')
-    return df
+st.sidebar.markdown("---")
+st.sidebar.info("💡 **Dica Analítica:** O filtro acima recalcula dinamicamente as utilidades da Conjoint e os scores da MaxDiff de acordo com a categoria da motocicleta.")
 
-def get_turf_data():
-    # Baseado na página 14 do PDF
-    steps = ["1", "2", "3", "4", "5"]
-    reach_acumulado = [42, 61, 74, 81, 85]
-    incremento_texto = ["+42pp", "+19pp", "+13pp", "+7pp", "+4pp"]
-    incentivos = [
-        "1. Taxa Subsidiada",
-        "2. + Bônus Varejo",
-        "3. + Super do Usado",
-        "4. + Seguro Grátis",
-        "5. + IPVA Grátis"
-    ]
+# ==========================================
+# 3. DADOS MOCKADOS (Baseados na Proposta da Yamaha)
+# ==========================================
+def get_maxdiff_data():
+    # Ref: Proposta Pg 7 - Share of Preference
     return pd.DataFrame({
-        'Nº de Incentivos': steps,
-        'Reach Acumulado (%)': reach_acumulado,
-        'Incremento': incremento_texto,
-        'Combinação': incentivos
+        'Atributo': ['Freios ABS', 'Painel Digital', 'Faróis de LED', 'Chave presencial', 'Botão de START', 'Suspensão a gás', 'Baú traseiro', 'Bagageiro 2 capacetes'],
+        'Categoria': ['Segurança', 'Tecnologia', 'Design/Segurança', 'Comodidade', 'Comodidade', 'Dinâmica', 'Carga', 'Carga'],
+        'Score (%)': [22, 18, 15, 12, 11, 9, 8, 5]
+    }).sort_values('Score (%)', ascending=True)
+
+def get_conjoint_importance():
+    # Ref: Proposta Pg 10 - Análise de Importância
+    return pd.DataFrame({
+        'Fator': ['Preço', 'Potência', 'Característica Destaque', 'Modelo', 'Painel'],
+        'Importância (%)': [41, 23, 16, 12, 8]
+    }).sort_values('Importância (%)', ascending=True)
+
+def get_mwtp_data():
+    # Ref: Proposta Pg 11 - Disposição marginal a pagar
+    return pd.DataFrame({
+        'Feature': ['Potência 300cc', 'Freios ABS', 'Potência 160cc', 'Painel Digital', 'Faróis de LED', 'Chave presencial', 'Botão de START', 'Baú traseiro'],
+        'MWTP (R$)': [2340, 1450, 1120, 980, 760, 540, 320, 280]
+    }).sort_values('MWTP (R$)', ascending=True)
+
+def get_adoption_curve():
+    # Ref: Proposta Pg 13 - Share por segmento e simulações
+    return pd.DataFrame({
+        'Cenário': ['1. Versão base', '2. + Freios ABS', '3. + Painel Digital', '4. + Potência 300cc'],
+        'Yamaha': [36, 44, 49, 58],
+        'Concorrência': [52, 46, 42, 34],
+        'Nenhuma': [12, 10, 9, 8]
     })
 
+# Paleta de cores da Insights&Etc para gráficos
+CHART_COLORS = ['#00FFFF', '#009999', '#FF6B6B', '#CC5555', '#4A90E2']
+
 # ==========================================
-# 4. RENDERIZAÇÃO: MÓDULO MAXDIFF
+# 4. RENDERIZAÇÃO DO DASHBOARD
 # ==========================================
-st.markdown("### Módulo 1: Otimização e Triagem de Incentivos (MaxDiff)")
+tab_mxd, tab_conj, tab_mwtp, tab_sim = st.tabs([
+    "📊 1. MaxDiff (Priorização)", 
+    "⚖️ 2. Conjoint (Utilidades)", 
+    "💰 3. MWTP (Valor em R$)", 
+    "📈 4. Simulador Competitivo"
+])
 
-tab1, tab2, tab3 = st.tabs(["📊 1. Ranking Geral", "🗺️ 2. Heatmap por Persona", "📈 3. Análise TURF (Reach)"])
-
-with tab1:
-    col_text, col_chart = st.columns([1, 2])
-    with col_text:
-        st.markdown("""
-        <div class="insight-box">
-            <span class="insight-title">Principais Insights</span>
-            <p><b>#1 Taxa Subsidiada (82)</b><br>Incentivo mais valorizado. Ativa tanto financiadores quanto clientes à vista.</p>
-            <p><b>#2 Bônus de Varejo (76)</b><br>Alta percepção de 'dinheiro real'; mais eficaz para fechar o negócio.</p>
-            <p><b>#3 Super do Usado (68)</b><br>Forte 'pull' para quem tem carro a dar na troca; sensível ao valor FIPE.</p>
-        </div>
-        <div class="alert-box">
-            <span class="alert-title">Benefícios Extras (22-55)</span>
-            <p>Seguro, IPVA e Documentação atraem leads, mas raramente fecham negócio sozinhos se os 3 pilares financeiros acima não estiverem ajustados.</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-    with col_chart:
-        df_rank = get_maxdiff_ranking()
-        fig_rank = px.bar(df_rank, x='Score (0-100)', y='Incentivo', orientation='h', text_auto='.0f')
-        fig_rank.update_traces(marker_color='#002060', textposition='outside')
-        fig_rank.update_layout(
-            title="Ranking de Importância dos Incentivos (0-100)",
-            xaxis_title="Score MaxDiff", yaxis_title=None,
-            template="plotly_white", height=450,
-            xaxis=dict(range=[0, 100])
-        )
-        st.plotly_chart(fig_rank, use_container_width=True)
-
-with tab2:
-    st.markdown("Avaliamos se um benefício é amado por todos (Consenso) ou se ele agrada apenas um nicho específico (Polarizado).")
-    df_heat = get_maxdiff_heatmap()
-    
-    colA, colB = st.columns([2, 1])
-    with colA:
-        # Extrai apenas as colunas numéricas para o gráfico
-        heat_data = df_heat[['Apostadores', 'Potenciais', 'Indecisos', 'Refratários']]
-        fig_heat = px.imshow(
-            heat_data, 
-            text_auto=True, 
-            aspect="auto",
-            color_continuous_scale="Blues",
-            title="MaxDiff Score Médio por Persona"
-        )
-        fig_heat.update_layout(template="plotly_white", height=400)
-        st.plotly_chart(fig_heat, use_container_width=True)
-        
-    with colB:
-        st.markdown("<br><br>", unsafe_allow_html=True) # Espaçamento
-        st.dataframe(df_heat[['Diagnóstico']], use_container_width=True, height=350)
-        st.caption("🚨 **Dica Route:** Evite incentivos *Polarizados* (como Seguro Grátis) em campanhas de TV amplas. Use-os apenas em ativações de CRM 1:1.")
-
-with tab3:
-    col1, col2 = st.columns([1.5, 1])
+# --- ABA 1: MAXDIFF ---
+with tab_mxd:
+    st.markdown("### Hierarquia de Atributos (Maximum Difference Scaling)")
+    col1, col2 = st.columns([2, 1])
     
     with col1:
-        df_turf = get_turf_data()
-        fig_turf = go.Figure()
-        
-        # Barras de Incremento
-        fig_turf.add_trace(go.Bar(
-            x=df_turf['Nº de Incentivos'], 
-            y=df_turf['Reach Acumulado (%)'],
-            text=df_turf['Incremento'],
-            textposition='inside',
-            marker_color='#E2E8F0',
-            name='Reach'
-        ))
-        
-        # Linha de Acumulado
-        fig_turf.add_trace(go.Scatter(
-            x=df_turf['Nº de Incentivos'], 
-            y=df_turf['Reach Acumulado (%)'],
-            mode='lines+markers+text',
-            text=df_turf['Reach Acumulado (%)'].astype(str) + '%',
-            textposition='top center',
-            line=dict(color='#00B0F0', width=4),
-            marker=dict(size=12, color='#002060'),
-            name='Acumulado'
-        ))
-        
-        # Ponto de inflexão
-        fig_turf.add_vline(x=2, line_dash="dash", line_color="#E53E3E", annotation_text="Ponto de Inflexão")
-        
-        fig_turf.update_layout(
-            title="Reach Acumulado por Combinação de Incentivos",
-            xaxis_title="Quantidade de Incentivos no Pacote",
-            yaxis_title="Reach (%)",
-            yaxis=dict(range=[0, 100]),
-            template="plotly_white",
-            height=450,
-            showlegend=False
+        df_mxd = get_maxdiff_data()
+        fig_mxd = px.bar(df_mxd, x='Score (%)', y='Atributo', orientation='h', color='Categoria', text_auto='.0f', color_discrete_sequence=CHART_COLORS)
+        fig_mxd.update_layout(
+            plot_bgcolor='#0A192F', paper_bgcolor='#0A192F', font_color='#E2E8F0',
+            xaxis_title="Share of Preference (%)", yaxis_title=None, height=450,
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
         )
-        st.plotly_chart(fig_turf, use_container_width=True)
+        st.plotly_chart(fig_mxd, use_container_width=True)
         
     with col2:
         st.markdown("""
-        <div class="insight-box" style="margin-top: 50px;">
-            <span class="insight-title">Sugestão Route Automotive</span>
-            <h3 style="color: #00B0F0; margin-top: 10px;">74% de Alcance</h3>
-            <p><b>Combinação Ótima:</b><br>Taxa Subsidiada + Bônus Varejo + Supervalorização do Usado.</p>
-            <p style="color: #E53E3E;"><b>O Ponto de Inflexão ocorre em 3 incentivos.</b> O 4º e o 5º incentivos (Seguro e IPVA) trazem menos de 8 p.p. de alcance adicional e geram custo-benefício negativo para a montadora.</p>
+        <div class="insight-box">
+            <span class="insight-title">Interpretação do Cliente</span>
+            <p>Os <b>Freios ABS (22%)</b> e o <b>Painel Digital (18%)</b> dominam a preferência do consumidor na composição da motocicleta.</p>
+            <p>Itens de carga, como o <i>Bagageiro para 2 capacetes</i>, possuem relevância marginal e não devem ser tratados como diferenciais estratégicos de precificação primária.</p>
         </div>
         """, unsafe_allow_html=True)
 
-st.divider()
+# --- ABA 2: CONJOINT IMPORTANCE ---
+with tab_conj:
+    st.markdown("### Decomposição da Decisão de Compra")
+    c1, c2 = st.columns(2)
+    
+    with c1:
+        df_imp = get_conjoint_importance()
+        fig_imp = px.bar(df_imp, x='Importância (%)', y='Fator', orientation='h', text_auto='.0f')
+        fig_imp.update_traces(marker_color='#00FFFF', textposition='outside')
+        fig_imp.update_layout(plot_bgcolor='#0A192F', paper_bgcolor='#0A192F', font_color='#E2E8F0', xaxis_title="Importância Relativa (%)", yaxis_title=None, height=350)
+        st.plotly_chart(fig_imp, use_container_width=True)
+        
+    with c2:
+        st.markdown("""
+        <div class="alert-box">
+            <span class="alert-title">Sensibilidade ao Fator Preço</span>
+            <p>O <b>Preço (41%)</b> é o atributo mais restritivo. Contudo, a combinação de <b>Potência (23%)</b> e <b>Destaques Tecnológicos (16%)</b> soma 39% do peso da decisão, provando que o consumidor está disposto a fazer trade-offs se a proposta de valor for clara.</p>
+        </div>
+        """, unsafe_allow_html=True)
 
-# ==========================================
-# 5. RENDERIZAÇÃO: MÓDULO CONJOINT
-# ==========================================
-st.markdown("### Módulo 2: Simulador Financeiro (Conjoint Analysis)")
-st.markdown("Combinamos os pacotes campeões do MaxDiff com o Preço de Tabela do veículo para prever a conversão real na loja.")
+# --- ABA 3: MWTP (DISPOSIÇÃO MARGINAL A PAGAR) ---
+with tab_mwtp:
+    st.markdown("### Precificação Baseada em Valor (Marginal Willingness to Pay)")
+    st.write("Quantos reais o cliente aceita pagar a mais em relação a uma versão base de entrada para ter a feature adicionada.")
+    
+    df_mwtp = get_mwtp_data()
+    fig_mwtp = px.bar(df_mwtp, x='MWTP (R$)', y='Feature', orientation='h', text_auto='R$ .0f')
+    fig_mwtp.update_traces(marker_color='#FF6B6B', textposition='outside')
+    fig_mwtp.update_layout(plot_bgcolor='#0A192F', paper_bgcolor='#0A192F', font_color='#E2E8F0', xaxis_title="Disposição a Pagar (R$)", yaxis_title=None, height=450)
+    st.plotly_chart(fig_mwtp, use_container_width=True)
 
-col_sim1, col_sim2, col_sim3 = st.columns(3)
-
-tiers = ["Preço Cheio (+2%)", "Preço Sugerido (Tabela)", "Desconto Tático (-3%)", "Desconto Agressivo (-6%)"]
-
-with col_sim1:
-    st.markdown("**Pacote A: Taxa 0% (24x)**")
-    t1 = st.selectbox("Selecione o Preço (Pacote A)", tiers, index=1)
-with col_sim2:
-    st.markdown("**Pacote B: Bônus Usado (R$ 5k)**")
-    t2 = st.selectbox("Selecione o Preço (Pacote B)", tiers, index=2)
-with col_sim3:
-    st.markdown("**Pacote C: Sem Benefícios**")
-    t3 = st.selectbox("Selecione o Preço (Pacote C)", tiers, index=3)
-
-# Lógica matemática fake simplificada para ilustrar o share
-base_shares = np.array([45, 35, 20])
-modifiers = np.array([
-    1 - (tiers.index(t1) * 0.15),
-    1 - (tiers.index(t2) * 0.15),
-    1 - (tiers.index(t3) * 0.25)
-])
-raw_scores = base_shares * (2 - modifiers)
-final_shares = (raw_scores / raw_scores.sum()) * 100
-
-df_share = pd.DataFrame({
-    'Oferta na Concessionária': ['Pacote A (Taxa 0%)', 'Pacote B (Bônus Usado)', 'Pacote C (Apenas Desconto N.F.)'],
-    'Share de Escolha (%)': final_shares
-}).sort_values('Share de Escolha (%)', ascending=False)
-
-
-
-
-fig_conjoint = px.bar(df_share, x='Share de Escolha (%)', y='Oferta na Concessionária', orientation='h', text_auto='.1f')
-fig_conjoint.update_traces(marker_color='#00B0F0')
-fig_conjoint.update_layout(template="plotly_white", height=300)
-
-st.plotly_chart(fig_conjoint, use_container_width=True)
-
-st.markdown("""
-<div class="insight-box" style="border-color: #002060;">
-    <span class="insight-title">Análise de Elasticidade Comercial</span>
-    <p>O simulador demonstra como a <b>percepção psicológica do benefício</b> (ex: Taxa Zero) muitas vezes supera o <b>desconto real em dinheiro</b> na nota fiscal (Pacote C). Isso permite que a montadora proteja sua margem de lucro mantendo o preço de tabela, financiando apenas a taxa através do banco da montadora.</p>
-</div>
-""", unsafe_allow_html=True)
+# --- ABA 4: SIMULADOR DE CENÁRIOS E SHARE ---
+with tab_sim:
+    st.markdown("### Simulador de Curva de Adoção e Share of Preference")
+    st.write("Impacto da inserção de pacotes tecnológicos sobre a captura de Share frente à concorrência.")
+    
+    df_adopt = get_adoption_curve()
+    
+    fig_adopt = go.Figure()
+    fig_adopt.add_trace(go.Bar(x=df_adopt['Cenário'], y=df_adopt['Yamaha'], name='Yamaha', marker_color='#00FFFF', text=df_adopt['Yamaha'].astype(str) + '%', textposition='inside'))
+    fig_adopt.add_trace(go.Bar(x=df_adopt['Cenário'], y=df_adopt['Concorrência'], name='Concorrência', marker_color='#4A90E2', text=df_adopt['Concorrência'].astype(str) + '%', textposition='inside'))
+    fig_adopt.add_trace(go.Bar(x=df_adopt['Cenário'], y=df_adopt['Nenhuma'], name='Nenhuma', marker_color='#2D3436', text=df_adopt['Nenhuma'].astype(str) + '%', textposition='inside'))
+    
+    fig_adopt.update_layout(
+        barmode='stack', plot_bgcolor='#0A192F', paper_bgcolor='#0A192F', font_color='#E2E8F0',
+        yaxis_title="Share of Preference (%)", height=500,
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+    )
+    st.plotly_chart(fig_adopt, use_container_width=True)
+    
+    st.markdown("""
+    <div class="insight-box" style="border-color: #00FFFF;">
+        <span class="insight-title">Análise de Elasticidade Comercial</span>
+        <p>A simples adição do <b>Painel Digital</b> ao pacote ABS eleva o share de 44% para 49%[cite: 910, 911]. O upgrade de motorização para 300cc consolida a liderança absoluta no cenário simulado (58%)[cite: 909], retirando volume direto do principal concorrente.</p>
+    </div>
+    """, unsafe_allow_html=True)
