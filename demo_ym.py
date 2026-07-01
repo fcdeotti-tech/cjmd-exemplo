@@ -253,49 +253,50 @@ with tab_mwtp:
 
 # --- ABA 4: ELASTICIDADE DINÂMICA ---
 with tab_elas:
-    st.markdown("### Elasticidade de Preço")
+    st.markdown("### Elasticidade de Preço por Nível")
+    st.write("Compare a curva de demanda para cada nível do ítem selecionado.")
     
-    col_sel_e1, col_sel_e2, _ = st.columns([1, 1, 2])
-    with col_sel_e1:
-        feature_sel = st.selectbox("Selecione o Ítem para Análise:", df_spec['Item'].unique().tolist(), key="elas_feat")
-    with col_sel_e2:
-        segmento_elas = st.selectbox("Segmento do Gráfico:", ['Total'] + SEGMENTOS, key='elas_seg')
+    # Seletores
+    c_sel1, c_sel2, _ = st.columns([1, 1, 2])
+    with c_sel1:
+        feature_sel = st.selectbox("Selecione o Ítem:", df_spec['Item'].unique().tolist(), key="elas_i")
+    with c_sel2:
+        segmento_elas = st.selectbox("Segmento:", ['Total'] + SEGMENTOS, key="elas_seg")
     
-    # Gerando dinamismo na curva baseando-se no tamanho do nome do ítem (apenas para variar visualmente o gráfico)
-    modificador_feature = 1.0 + (len(feature_sel) % 5) * 0.05
+    # Preparação dos dados para o nível selecionado
+    df_item = df_spec[df_spec['Item'] == feature_sel]
+    precos_elas = [13000, 15000, 17000, 19000, 21000]
     
-    precos_elas = [13000, 14000, 15000, 16000, 17000, 18000, 19000]
-    precos_labels = [f"R$ {p/1000:.3f}" for p in precos_elas]
+    # Criamos colunas lado a lado
+    col_grafico, col_tabela = st.columns([1.5, 1])
     
-    # Base alterada dinamicamente pelo item selecionado
-    base_shares = np.array([46.0, 41.5, 36.0, 30.0, 24.5, 18.0, 13.0]) * modificador_feature
-    
-    df_elas_tabela = pd.DataFrame({
-        'Preço Praticado': precos_labels,
-        'Total (%)': base_shares,
-        'Scooter (%)': base_shares * 1.05,        # Multiplicadores fixos solicitados para os segmentos
-        'Small Street (%)': base_shares * 0.95,
-        'Middle Street (%)': base_shares * 0.85,
-        'Big Street (%)': base_shares * 0.65
-    })
-    
-    for col in df_elas_tabela.columns[1:]:
-        df_elas_tabela[col] = df_elas_tabela[col].clip(0, 100)
-    
-    c1, c2 = st.columns([1, 1.2])
-    with c1:
-        fig_s = go.Figure()
-        coluna_grafico = segmento_elas + ' (%)'
-        fig_s.add_trace(go.Scatter(x=precos_elas, y=df_elas_tabela[coluna_grafico], mode='lines+markers', line=dict(color=PALETTE['brown_dark'], width=3), marker=dict(size=8), fill='tozeroy', fillcolor='rgba(164, 76, 58, 0.1)'))
-        fig_s.update_layout(title=f"Curva de Demanda ({segmento_elas})", xaxis_title="Preço (R$)", yaxis_title="Share (%)", plot_bgcolor='#FFFFFF', paper_bgcolor='#FFFFFF', yaxis=dict(range=[0, 70], gridcolor='#E0E0E0'), height=350)
-        st.plotly_chart(fig_s, use_container_width=True)
+    with col_grafico:
+        fig_elas = go.Figure()
+        tabela_data = {'Preço': [f"R$ {p/1000:.3f}" for p in precos_elas]}
         
-    with c2:
-        st.markdown("<div style='margin-bottom: 15px; font-weight: 600; color: #4A4A4A;'>Share Projetado por Segmento (Visão Geral)</div>", unsafe_allow_html=True)
-        df_display = df_elas_tabela.copy()
-        for col in df_display.columns[1:]:
-            df_display[col] = df_display[col].map("{:.1f}%".format)
-        st.dataframe(df_display, use_container_width=True, hide_index=True)
+        for _, row in df_item.iterrows():
+            nivel = row['Nivel']
+            if nivel == 'Padrão': continue
+            
+            # Cálculo de share dinâmico por segmento
+            base_val = row[segmento_elas if segmento_elas != 'Total' else 'Total']
+            shares = [max(1.0, (base_val / 20) * (1 - (p-13000)/10000)) for p in precos_elas]
+            
+            fig_elas.add_trace(go.Scatter(x=precos_elas, y=shares, mode='lines+markers', name=nivel))
+            tabela_data[nivel] = [f"{s:.1f}%" for s in shares]
+            
+        fig_elas.update_layout(
+            title=f"Curva de Demanda: {feature_sel}",
+            xaxis_title="Preço (R$)", yaxis_title="Share (%)",
+            plot_bgcolor='#FFFFFF', paper_bgcolor='#FFFFFF',
+            yaxis=dict(gridcolor='#E0E0E0', range=[0, 60]), height=400,
+            margin=dict(t=40, b=0, l=0, r=0)
+        )
+        st.plotly_chart(fig_elas, use_container_width=True)
+        
+    with col_tabela:
+        st.markdown("<div style='margin-bottom: 15px; font-weight: 600; color: #4A4A4A;'>Tabela de Share Projetado</div>", unsafe_allow_html=True)
+        st.table(pd.DataFrame(tabela_data))
 
 # --- ABA 5: SIMULADOR 100% REATIVO ---
 with tab_sim:
@@ -378,5 +379,3 @@ st.markdown(f"""
     Dashboard Analytics and Tech dev by <b>INSIGHTS</b><b style='color:#FF6B6B'>&</b><b>Etc</b>
 </div>
 """, unsafe_allow_html=True)
-
-
