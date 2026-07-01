@@ -289,7 +289,7 @@ with tab_elas:
             title=f"Curva de Demanda: {feature_sel}",
             xaxis_title="Preço (R$)", yaxis_title="Share (%)",
             plot_bgcolor='#FFFFFF', paper_bgcolor='#FFFFFF',
-            yaxis=dict(gridcolor='#E0E0E0', range=[0, 60]), height=400,
+            yaxis=dict(gridcolor='#E0E0E0'), height=400,
             margin=dict(t=40, b=0, l=0, r=0)
         )
         st.plotly_chart(fig_elas, use_container_width=True)
