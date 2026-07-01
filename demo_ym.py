@@ -378,3 +378,5 @@ st.markdown(f"""
     Dashboard Analytics and Tech dev by <b>INSIGHTS</b><b style='color:#FF6B6B'>&</b><b>Etc</b>
 </div>
 """, unsafe_allow_html=True)
+
+
